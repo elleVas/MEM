@@ -4,28 +4,31 @@ package com.android.lele_phobia.mem;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import static android.database.DatabaseUtils.dumpCursorToString;
+
 
 /**
  * Created by lele_phobia on 18/11/15.
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public static final String DATABASE_NAME = "note.db";
+
+
+    public static final String DATABASE_NAME = "noteMEM.db";
     public static final String TABLE_NAME_NOTE = "note";
-    public static final String COL_1 = "id";
+    public static final String COL_1 = "_id";
     public static final String COL_2 = "id_user";
     public static final String COL_3 = "note";
     public static final String COL_4 = "data";
 
     public static final String TABLE_NAME_UTE = "utenti";
-    public static final String COL_5 = "id";
+    public static final String COL_5 = "_id";
     public static final String COL_6 = "username";
     public static final String COL_7 = "password";
+
+    private SQLiteDatabase mDb;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -33,8 +36,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + TABLE_NAME_NOTE +" (id INTEGER PRIMARY KEY AUTOINCREMENT,id_user INTEGER, note TEXT, data TEXT)");
-        db.execSQL("create table " + TABLE_NAME_UTE + " (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT)");
+        db.execSQL("create table " + TABLE_NAME_NOTE +" (_id INTEGER PRIMARY KEY AUTOINCREMENT,id_user INTEGER, note TEXT, data TEXT)");
+        db.execSQL("create table " + TABLE_NAME_UTE + " (_id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT)");
 
     }
 
@@ -44,6 +47,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_UTE);
 
         onCreate(db);
+    }
+
+
+    public Cursor fetchAllNote() {
+
+        Cursor mCursor = mDb.query(TABLE_NAME_NOTE, new String[] {COL_1,
+                        COL_2, COL_3, COL_4},
+                null, null, null, null, null);
+
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+        }
+        return mCursor;
     }
 
     public Cursor selNote() {
@@ -56,6 +72,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 null,                                     // don't group the rows
                 null,                                     // don't filter by row groups
                 COL_1+" DESC"                                 // The sort order
+        );
+
+        return c;
+    }
+
+    public void open(){  //il database su cui agiamo è leggibile/scrivibile
+        SQLiteDatabase db =this.getWritableDatabase();
+
+    }
+
+    public Cursor selNota(String notaS) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.query(
+                TABLE_NAME_NOTE,  // The table to query
+                null,                               // The columns to return
+                null,                                // The columns for the WHERE clause
+                new String[]{COL_3 + "=" + notaS},                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                COL_1 + " DESC"                                 // The sort order
         );
 
         return c;
@@ -88,5 +124,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         else
             return true;
     }
+
+    public boolean updateNota(int rowId,String nota, String data) {
+        /*
+        SQLiteDatabase db = helper.getWritableDatabase(); // helper is MyDatabaseHelper, a subclass database control class in which this updateTime method is resides
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MyDatabaseHelper.DATE_TIME, date); // (column name, new row value)
+        String selection = MyDatabaseHelper.ID + " LIKE ?"; // where ID column = rowId (that is, selectionArgs)
+        String[] selectionArgs = { String.valueOf(rowId) };
+
+        long id = db.update(MyDatabaseHelper.FAVORITE_TABLE_NAME, contentValues, selection,
+                selectionArgs);
+        db.close();
+        return id;*/
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_3, nota);
+        contentValues.put(COL_4, data);
+
+        long result = 1;
+
+        db.update(TABLE_NAME_NOTE,contentValues,"_id=" + rowId, null);
+        if(result == -1)
+            return false;
+        else
+            return true;
+    }
+
+
+
 }
 

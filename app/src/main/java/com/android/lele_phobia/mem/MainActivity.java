@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -39,72 +40,103 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         myDb = new DatabaseHelper(this);
+
+
+        SimpleCursorAdapter dataAdapter;
         Cursor cursor = myDb.selNote();
 
+        // The desired columns to be bound
+        String[] columns = new String[] {
+                DatabaseHelper.COL_1,
+                DatabaseHelper.COL_3,
+                DatabaseHelper.COL_4
+        };
+
+        // the XML defined views which the data will be bound to
+        int[] to = new int[] {
+                R.id.id_nota,
+                R.id.nota,
+                R.id.data,
+        };
+
+        // create the adapter using the cursor pointing to the desired data
+        //as well as the layout information
+        dataAdapter = new SimpleCursorAdapter(
+                this, R.layout.row,
+                cursor,
+                columns,
+                to,
+                1);
+
+        ListView listView = (ListView) findViewById(R.id.listViewDemo);
+        // Assign adapter to ListView
+        listView.setAdapter(dataAdapter);
 
 
-        //qui si visualizza anche la lista delle note
 
+        //qui la lista delle note
+/*
         System.out.println(dumpCursorToString(cursor));
         // Find ListView to populate
         ListView listView = (ListView) findViewById(R.id.listViewDemo);
 
         cursor.moveToFirst();
-        ArrayList<String> names = new ArrayList<String>();
+        ArrayList<String> notes = new ArrayList<String>();
         while(!cursor.isAfterLast()) {
-                names.add(cursor.getString(cursor.getColumnIndex("note")));
+                notes.add(cursor.getString(cursor.getColumnIndex("note")));
                 cursor.moveToNext();
         }
-        cursor.close();
+
+
+        //cursor.close();
 
         ArrayAdapter<String> arrayAdapter =
-                new ArrayAdapter<String>(this, R.layout.row, R.id.textViewList, names);
+                new ArrayAdapter<String>(this, R.layout.row, R.id.textViewList, notes);
         listView.setAdapter(arrayAdapter);
+          */
 
 
         listView.setClickable(true);
         final ListView test = ((ListView) findViewById(R.id.listViewDemo));
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                                    @Override
-                                    public void onItemClick(AdapterView<?> parent,
-                                                            View view, int position, long id) {
-
-                                        // Get the cursor, positioned to the
-                                        // corresponding row in the result set
-                                        try (OIncome income = list.get(position);) {
-
-                                            if (cursor != null) {
-                                                //cursor.moveToFirst();
-                                                // Get the state's capital from this row in the database.
-
-                                                String track_id = cursor.getString(cursor.getColumnIndex("id"));
-                                                String size = cursor.getString(cursor.getColumnIndex("id_user"));
-                                                String length = cursor.getString(cursor.getColumnIndex("note"));
-                                                String title = cursor.getString(cursor.getColumnIndex("data"));
-
-                                                //create bundle for data in new activity
-                                                Bundle bundle = new Bundle();
-
-                                                bundle.putString("TAG_ID", track_id);
-                                                bundle.putString("TAG_SIZE", size);
-                                                bundle.putString("TAG_LENGTH", length);
-                                                bundle.putString("TAG_TITLE", title);
-
-                                                // Starting new intent
-                                                Intent in = new Intent(getApplicationContext(), NewNoteActivity.class);
-
-                                                in.putExtras(bundle);
-                                                //startActivity(in);
 
 
-                                                Toast.makeText(MainActivity.this, "You Clicked at " + track_id + " nota: " + length, Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-                                        myDb.close();
-                                    }
 
-                                });
+        test.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                //private String value;
+                @Override
+                public void onItemClick(AdapterView<?> parent,View view, int position, long id) {
+
+                    Toast.makeText(MainActivity.this, "hai cliccato alla posizione: "+position+" con id:"+id, Toast.LENGTH_LONG).show();
+                    DatabaseHelper myDbHelper2 = new DatabaseHelper(getApplicationContext());
+                    myDbHelper2.open();
+
+                    Cursor cursor = (Cursor) test.getItemAtPosition(position);
+
+
+
+                    if(cursor!=null)
+                    {
+                         //cursor.moveToFirst();
+
+                      String id_nota = cursor.getString(cursor.getColumnIndex("_id"));
+                      String nota    = cursor.getString(cursor.getColumnIndex("note"));
+                      String data    = cursor.getString(cursor.getColumnIndex("data"));
+
+                      //create bundle for data in new activity
+                      Bundle bundle = new Bundle();
+                      bundle.putString("TAG_ID", id_nota);
+                      bundle.putString("TAG_NOTA", nota);
+                      bundle.putString("TAG_DATA", data);
+                      // Starting new intent
+                      Intent in = new Intent(getApplicationContext(), UpdateNoteActivity.class);
+                      in.putExtras(bundle);
+                      startActivity(in);
+                    }
+                 myDb.close();
+                }
+
+                });
 
 
                                 Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
