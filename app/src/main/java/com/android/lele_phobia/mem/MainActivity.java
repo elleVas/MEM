@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity
         myDb = new DatabaseHelper(this);
 
 
+        //qui la lista delle note
         SimpleCursorAdapter dataAdapter;
         Cursor cursor = myDb.selNote();
 
@@ -71,30 +72,6 @@ public class MainActivity extends AppCompatActivity
         ListView listView = (ListView) findViewById(R.id.listViewDemo);
         // Assign adapter to ListView
         listView.setAdapter(dataAdapter);
-
-
-
-        //qui la lista delle note
-/*
-        System.out.println(dumpCursorToString(cursor));
-        // Find ListView to populate
-        ListView listView = (ListView) findViewById(R.id.listViewDemo);
-
-        cursor.moveToFirst();
-        ArrayList<String> notes = new ArrayList<String>();
-        while(!cursor.isAfterLast()) {
-                notes.add(cursor.getString(cursor.getColumnIndex("note")));
-                cursor.moveToNext();
-        }
-
-
-        //cursor.close();
-
-        ArrayAdapter<String> arrayAdapter =
-                new ArrayAdapter<String>(this, R.layout.row, R.id.textViewList, notes);
-        listView.setAdapter(arrayAdapter);
-          */
-
 
         listView.setClickable(true);
         final ListView test = ((ListView) findViewById(R.id.listViewDemo));
@@ -129,7 +106,7 @@ public class MainActivity extends AppCompatActivity
                       bundle.putString("TAG_NOTA", nota);
                       bundle.putString("TAG_DATA", data);
                       // Starting new intent
-                      Intent in = new Intent(getApplicationContext(), UpdateNoteActivity.class);
+                      Intent in = new Intent(getApplicationContext(), UpdateNotaActivity.class);
                       in.putExtras(bundle);
                       startActivity(in);
                     }
@@ -146,7 +123,7 @@ public class MainActivity extends AppCompatActivity
                                 fab.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        Intent intent = new Intent(getApplicationContext(), NewNoteActivity.class);
+                                        Intent intent = new Intent(getApplicationContext(), NewNotaActivity.class);
                                         startActivity(intent);
 
                 /*

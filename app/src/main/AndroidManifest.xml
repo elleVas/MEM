@@ -31,9 +31,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NewNoteActivity" >
+        <activity
+            android:name=".UpdateNotaActivity"
+            android:label="@string/title_activity_update_nota"
+            android:theme="@style/AppTheme.NoActionBar" >
         </activity>
-        <activity android:name=".UpdateNoteActivity" >
+        <activity
+            android:name=".NewNotaActivity"
+            android:label="@string/title_activity_new_nota"
+            android:theme="@style/AppTheme.NoActionBar" >
         </activity>
     </application>
 
