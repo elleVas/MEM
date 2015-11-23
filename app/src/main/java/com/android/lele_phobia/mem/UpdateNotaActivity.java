@@ -2,8 +2,6 @@ package com.android.lele_phobia.mem;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,13 +15,18 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class UpdateNotaActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
     DatabaseHelper myDb;
     EditText editNota;
+    EditText editTitolo
+            ;
     GregorianCalendar gc = new GregorianCalendar();
     int anno = gc.get(Calendar.YEAR);
     int mese = gc.get(Calendar.MONTH) + 1;
@@ -31,6 +34,7 @@ public class UpdateNotaActivity extends AppCompatActivity
     int ore = gc.get(Calendar.HOUR);
     int min = gc.get(Calendar.MINUTE);
     int sec = gc.get(Calendar.SECOND);
+    String currentDateandTime = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date());
 
 
     @Override
@@ -44,14 +48,14 @@ public class UpdateNotaActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+       /* FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -65,9 +69,12 @@ public class UpdateNotaActivity extends AppCompatActivity
         Intent i = getIntent();
         Bundle extras = i.getExtras();
         String strvalue = extras.getString("TAG_NOTA");
+        String strTitle = extras.getString("TAG_TITOLO");
 
         final TextView mTextView = (TextView) findViewById(R.id.invDescription);
         mTextView.setText(strvalue);
+        final TextView mTextViewTitle = (TextView) findViewById(R.id.titoloNota);
+        mTextViewTitle.setText(strTitle);
 
 
     }
@@ -75,6 +82,7 @@ public class UpdateNotaActivity extends AppCompatActivity
     public void updateNota(View view) {
         myDb = new DatabaseHelper(this);
         editNota = (EditText) findViewById(R.id.invDescription);
+        editTitolo = (EditText) findViewById(R.id.titoloNota);
         Intent i = getIntent();
         Bundle extras = i.getExtras();
 
@@ -84,7 +92,7 @@ public class UpdateNotaActivity extends AppCompatActivity
         int idNota = Integer.parseInt(strId);
 
 
-        boolean isInserted = myDb.updateNota(idNota, editNota.getText().toString(), giorno + "/" + mese + "/" + anno + " " + ore + ":" + min + ":" + sec);
+        boolean isInserted = myDb.updateNota(idNota, editNota.getText().toString(), currentDateandTime, editTitolo.getText().toString());
         if (isInserted = true) {
             Toast.makeText(UpdateNotaActivity.this, "Nota aggiornata con successo", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);

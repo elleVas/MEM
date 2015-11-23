@@ -2,8 +2,6 @@ package com.android.lele_phobia.mem;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,14 +14,18 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class NewNotaActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     DatabaseHelper myDb;
+    EditText editTitolo;
     EditText editNota;
+
     GregorianCalendar gc = new GregorianCalendar();
     int anno = gc.get(Calendar.YEAR);
     int mese = gc.get(Calendar.MONTH) + 1;
@@ -31,6 +33,7 @@ public class NewNotaActivity extends AppCompatActivity
     int ore = gc.get(Calendar.HOUR);
     int min = gc.get(Calendar.MINUTE);
     int sec = gc.get(Calendar.SECOND);
+    String currentDateandTime = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,14 +42,14 @@ public class NewNotaActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+       /* FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -65,9 +68,10 @@ public class NewNotaActivity extends AppCompatActivity
     public void newNota(View view) {
         myDb = new DatabaseHelper(this);
         editNota = (EditText) findViewById(R.id.invDescription);
+        editTitolo = (EditText) findViewById(R.id.titoloNota);
 
 
-        boolean isInserted = myDb.insertNota(1, editNota.getText().toString(), giorno + "/" + mese + "/" + anno + " " + ore + ":" + min + ":" + sec);
+        boolean isInserted = myDb.insertNota(1, editNota.getText().toString(), currentDateandTime, editTitolo.getText().toString());
         if (isInserted = true) {
             Toast.makeText(NewNotaActivity.this, "Nota inserita con successo", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);

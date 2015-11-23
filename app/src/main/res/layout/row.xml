@@ -9,14 +9,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Text"
-        android:id="@+id/data" />
+        android:id="@+id/data"
+        android:textSize="10dip"/>
 
     <TextView
-        android:layout_width="220dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Text"
-        android:id="@+id/nota"
-        android:textSize="22dip" />
+        android:id="@+id/titoloNota"
+        android:textSize="18dip"
+         />
 
     <TextView
         android:layout_width="wrap_content"
@@ -31,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="" android:padding="10dip"
-        android:textSize="30dip"/>
+        android:textSize="18dip"/>
 
 
 

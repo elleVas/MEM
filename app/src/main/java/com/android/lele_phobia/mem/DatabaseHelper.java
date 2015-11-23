@@ -22,6 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_2 = "id_user";
     public static final String COL_3 = "note";
     public static final String COL_4 = "data";
+    public static final String COL_8 = "titolo";
 
     public static final String TABLE_NAME_UTE = "utenti";
     public static final String COL_5 = "_id";
@@ -36,7 +37,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + TABLE_NAME_NOTE +" (_id INTEGER PRIMARY KEY AUTOINCREMENT,id_user INTEGER, note TEXT, data TEXT)");
+        db.execSQL("create table " + TABLE_NAME_NOTE +" (_id INTEGER PRIMARY KEY AUTOINCREMENT,id_user INTEGER, note TEXT, data TEXT, titolo TEXT)");
         db.execSQL("create table " + TABLE_NAME_UTE + " (_id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT)");
 
     }
@@ -53,7 +54,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor fetchAllNote() {
 
         Cursor mCursor = mDb.query(TABLE_NAME_NOTE, new String[] {COL_1,
-                        COL_2, COL_3, COL_4},
+                        COL_2, COL_3, COL_4, COL_8},
                 null, null, null, null, null);
 
         if (mCursor != null) {
@@ -71,7 +72,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 null,                            // The values for the WHERE clause
                 null,                                     // don't group the rows
                 null,                                     // don't filter by row groups
-                COL_1+" DESC"                                 // The sort order
+                COL_1 + " DESC"                                 // The sort order
         );
 
         return c;
@@ -112,12 +113,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
     }
 
-    public boolean insertNota(int id_user,String nota, String data) {
+    public boolean insertNota(int id_user, String nota, String data, String titolo) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_2,id_user);
         contentValues.put(COL_3, nota);
         contentValues.put(COL_4, data);
+        contentValues.put(COL_8, titolo);
+
         long result = db.insert(TABLE_NAME_NOTE,null ,contentValues);
         if(result == -1)
             return false;
@@ -125,27 +128,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
     }
 
-    public boolean updateNota(int rowId,String nota, String data) {
-        /*
-        SQLiteDatabase db = helper.getWritableDatabase(); // helper is MyDatabaseHelper, a subclass database control class in which this updateTime method is resides
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(MyDatabaseHelper.DATE_TIME, date); // (column name, new row value)
-        String selection = MyDatabaseHelper.ID + " LIKE ?"; // where ID column = rowId (that is, selectionArgs)
-        String[] selectionArgs = { String.valueOf(rowId) };
+    public boolean updateNota(int rowId, String nota, String data, String titolo) {
 
-        long id = db.update(MyDatabaseHelper.FAVORITE_TABLE_NAME, contentValues, selection,
-                selectionArgs);
-        db.close();
-        return id;*/
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_3, nota);
         contentValues.put(COL_4, data);
-
+        contentValues.put(COL_8, titolo);
         long result = 1;
 
-        db.update(TABLE_NAME_NOTE,contentValues,"_id=" + rowId, null);
+        db.update(TABLE_NAME_NOTE, contentValues, "_id=" + rowId, null);
         if(result == -1)
             return false;
         else
