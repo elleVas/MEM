@@ -1,3 +1,3 @@
-# MEM
+# MEM - Notem
 
-A simple notes application for Android.
+Notem is a simple notes application for Android.
