@@ -26,6 +26,29 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        listNote();
+
+
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), NewNotaActivity.class);
+                startActivity(intent);
+
+                /*
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
+            }
+        });
+
+
+    }
+    public void listNote(){
         myDb = new DatabaseHelper(this);
 
 
@@ -72,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-               // Toast.makeText(MainActivity.this, "hai cliccato alla posizione: " + position + " con id:" + id, Toast.LENGTH_LONG).show();
+                // Toast.makeText(MainActivity.this, "hai cliccato alla posizione: " + position + " con id:" + id, Toast.LENGTH_LONG).show();
                 DatabaseHelper myDbHelper2 = new DatabaseHelper(getApplicationContext());
                 myDbHelper2.open();
 
@@ -102,24 +125,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), NewNotaActivity.class);
-                startActivity(intent);
-
-                /*
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
-            }
-        });
-
 
     }
 

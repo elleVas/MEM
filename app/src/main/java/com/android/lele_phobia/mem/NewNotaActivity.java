@@ -1,6 +1,10 @@
 package com.android.lele_phobia.mem;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Camera;
+import android.hardware.camera2.CameraDevice;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -12,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -21,6 +26,11 @@ import java.util.GregorianCalendar;
 
 public class NewNotaActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    Uri photoPath;
+    ImageView imgFoto;
+    static int TAKE_PICTURE = 1;
+
 
     DatabaseHelper myDb;
     EditText editTitolo;
@@ -65,7 +75,7 @@ public class NewNotaActivity extends AppCompatActivity
     }
 
 
-    public void newNota(View view) {
+    public void newNota(NewNotaActivity view) {
         myDb = new DatabaseHelper(this);
         editNota = (EditText) findViewById(R.id.invDescription);
         editTitolo = (EditText) findViewById(R.id.titoloNota);
@@ -105,14 +115,23 @@ public class NewNotaActivity extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                // User chose the "Settings" item, show the app settings UI...
+                return true;
+
+            case R.id.action_favorite:
+                newNota(this);
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
         }
 
-        return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -122,21 +141,53 @@ public class NewNotaActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camara) {
-            // Handle the camera action
+           // Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+           // startActivity(intent);
+            imgFoto = (ImageView) findViewById(R.id.imgFoto);
+            Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(cameraIntent, TAKE_PICTURE);
+
+
+
+
         } else if (id == R.id.nav_gallery) {
+            Toast.makeText(NewNotaActivity.this, "gallery", Toast.LENGTH_LONG).show();
+
 
         } else if (id == R.id.nav_slideshow) {
+            Toast.makeText(NewNotaActivity.this, "slide", Toast.LENGTH_LONG).show();
+
 
         } else if (id == R.id.nav_manage) {
+            Toast.makeText(NewNotaActivity.this, "manage", Toast.LENGTH_LONG).show();
+
 
         } else if (id == R.id.nav_share) {
+            Toast.makeText(NewNotaActivity.this, "share", Toast.LENGTH_LONG).show();
+
 
         } else if (id == R.id.nav_send) {
+            Toast.makeText(NewNotaActivity.this, "send", Toast.LENGTH_LONG).show();
+
 
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+
+
+        if (requestCode == TAKE_PICTURE && resultCode == RESULT_OK) {
+            Bitmap photo = (Bitmap)intent.getExtras().get("data");
+            imgFoto.setImageBitmap(photo);
+            imgFoto.setVisibility(View.VISIBLE);
+
+
+
+        }
     }
 }

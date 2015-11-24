@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:text="New Text"
         android:id="@+id/titoloNota"
-        android:textSize="18dip"
+        android:textSize="15dip"
          />
 
     <TextView
@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="" android:padding="10dip"
-        android:textSize="18dip"/>
+        android:textSize="0dip"/>
 
 
 
