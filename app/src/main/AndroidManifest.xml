@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -40,6 +40,19 @@
             android:name=".NewNotaActivity"
             android:label="@string/title_activity_new_nota"
             android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <meta-data
+            android:name="android.app.default_searchable"
+            android:value=".app.Search" />
+
+        <activity android:name=".Search" >
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@layout/searchable" />
         </activity>
     </application>
 

@@ -8,21 +8,24 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/app_bar_new_nota"
-    tools:context="com.android.lele_phobia.mem.NewNotaActivity">
+    tools:context="com.android.lele_phobia.mem.NewNotaActivity"
+    android:nestedScrollingEnabled="false"
+    android:touchscreenBlocksFocus="true">
 
     <EditText
-        android:hint="TITOLO"
+        android:hint="titolo"
         android:id="@+id/titoloNota"
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:gravity="top"
         android:padding="4dp"
-        android:textSize="17dp"
+        android:textSize="19dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignRight="@+id/invDescription"
-        android:layout_alignEnd="@+id/invDescription" />
+        android:layout_alignEnd="@+id/invDescription"
+        android:textStyle="bold|italic" />
     <EditText
         android:hint="testo nota"
         android:id="@+id/invDescription"
@@ -30,22 +33,17 @@
         android:layout_height="175dp"
         android:gravity="top"
         android:padding="4dp"
-        android:textSize="17dp"
+        android:textSize="15dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/titoloNota"
-        android:layout_alignParentBottom="true"
-        android:clickable="false" />
+        android:clickable="false"
+        android:textStyle="italic"
+        android:textIsSelectable="false"
+        android:layout_alignParentBottom="true" />
 
 
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imgFoto"
-        android:layout_centerVertical="true"
-        android:layout_alignRight="@+id/button"
-        android:layout_alignEnd="@+id/button" />
 
 
 

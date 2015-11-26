@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -143,7 +144,7 @@ public class NewNotaActivity extends AppCompatActivity
         if (id == R.id.nav_camara) {
            // Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
            // startActivity(intent);
-            imgFoto = (ImageView) findViewById(R.id.imgFoto);
+            editNota = (EditText) findViewById(R.id.invDescription);
             Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
             startActivityForResult(cameraIntent, TAKE_PICTURE);
 
