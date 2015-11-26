@@ -13,7 +13,7 @@
     android:touchscreenBlocksFocus="true">
 
     <EditText
-        android:hint="titolo"
+        android:hint="title"
         android:id="@+id/titoloNota"
         android:layout_width="100dp"
         android:layout_height="50dp"
@@ -27,7 +27,7 @@
         android:layout_alignEnd="@+id/invDescription"
         android:textStyle="bold|italic" />
     <EditText
-        android:hint="testo nota"
+        android:hint="text"
         android:id="@+id/invDescription"
         android:layout_width="1150dp"
         android:layout_height="175dp"

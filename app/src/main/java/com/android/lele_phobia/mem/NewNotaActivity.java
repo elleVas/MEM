@@ -84,15 +84,21 @@ public class NewNotaActivity extends AppCompatActivity
 
         boolean isInserted = myDb.insertNota(1, editNota.getText().toString(), currentDateandTime, editTitolo.getText().toString());
         if (isInserted = true) {
-            Toast.makeText(NewNotaActivity.this, "Nota inserita con successo", Toast.LENGTH_LONG).show();
+            Toast.makeText(NewNotaActivity.this, "Saved successfully", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
         }
         else {
-            Toast.makeText(NewNotaActivity.this, "Data not Inserted", Toast.LENGTH_LONG).show();
+            Toast.makeText(NewNotaActivity.this, "Error data not save", Toast.LENGTH_LONG).show();
         }
 
     }
+
+    public void deleteNota(NewNotaActivity view) {
+
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+        }
 
     @Override
     public void onBackPressed() {
@@ -122,8 +128,11 @@ public class NewNotaActivity extends AppCompatActivity
                 // User chose the "Settings" item, show the app settings UI...
                 return true;
 
-            case R.id.action_favorite:
+            case R.id.action_salva:
                 newNota(this);
+                return true;
+            case R.id.action_delete:
+                deleteNota(this);
                 return true;
 
             default:

@@ -11,7 +11,8 @@
     <string name="search_hint">Search</string>
     <string name="search_label">Search</string>
 
-    <string name="action_salva">Salva</string>
+    <string name="action_salva">Save</string>
+    <string name="action_delete">Delete</string>
     <string name="title_activity_list_note">Notem</string>
     <string name="title_activity_update_nota">Notem</string>
     <string name="title_activity_new_nota">Notem</string>

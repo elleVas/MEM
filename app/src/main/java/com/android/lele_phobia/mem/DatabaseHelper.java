@@ -145,6 +145,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
     }
 
+    public boolean deleteNota(int rowId) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        long result = 1;
+        db.delete(TABLE_NAME_NOTE, "_id=" + rowId, null);
+        if(result == -1)
+            return false;
+        else
+            return true;
+    }
+
 
 
 }

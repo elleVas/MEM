@@ -1,5 +1,7 @@
 package com.android.lele_phobia.mem;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -94,16 +96,78 @@ public class UpdateNotaActivity extends AppCompatActivity
 
         boolean isInserted = myDb.updateNota(idNota, editNota.getText().toString(), currentDateandTime, editTitolo.getText().toString());
         if (isInserted = true) {
-            Toast.makeText(UpdateNotaActivity.this, "Nota aggiornata con successo", Toast.LENGTH_LONG).show();
+            Toast.makeText(UpdateNotaActivity.this, "Update successfully", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
         }
         else {
-            Toast.makeText(UpdateNotaActivity.this, "Errore nell'aggiornamento della nota", Toast.LENGTH_LONG).show();
+            Toast.makeText(UpdateNotaActivity.this, "Error on update", Toast.LENGTH_LONG).show();
+
         }
 
     }
 
+    public void deleteNota(UpdateNotaActivity view) {
+        myDb = new DatabaseHelper(this);
+        editNota = (EditText) findViewById(R.id.invDescription);
+        editTitolo = (EditText) findViewById(R.id.titoloNota);
+        Intent i = getIntent();
+        Bundle extras = i.getExtras();
+
+        //recupero l'id della nota
+
+        String strId = extras.getString("TAG_ID");
+        int idNota = Integer.parseInt(strId);
+
+
+        boolean isInserted = myDb.deleteNota(idNota);
+        if (isInserted = true) {
+            Toast.makeText(UpdateNotaActivity.this, "Delete successfully", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+        }
+        else {
+            Toast.makeText(UpdateNotaActivity.this, "Error on delete", Toast.LENGTH_LONG).show();
+
+        }
+
+    }
+    public void deleteAlert(){
+        System.out.println("sei qui cazzo");
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                this);
+
+        // set title
+        alertDialogBuilder.setTitle("Delete Note");
+
+        // set dialog message
+        alertDialogBuilder
+                .setMessage("Click yes to delete the note!")
+                .setCancelable(false)
+                .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        deleteNota(UpdateNotaActivity.this);
+                        // if this button is clicked, close
+                        // current activity
+                        UpdateNotaActivity.this.finish();
+
+                    }
+                })
+                .setNegativeButton("No",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        // if this button is clicked, just close
+                        // the dialog box and do nothing
+                        dialog.cancel();
+                    }
+                });
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
+
+    }
 
     @Override
     public void onBackPressed() {
@@ -132,8 +196,12 @@ public class UpdateNotaActivity extends AppCompatActivity
                 // User chose the "Settings" item, show the app settings UI...
                 return true;
 
-            case R.id.action_favorite:
+            case R.id.action_salva:
                 updateNota(this);
+                return true;
+            case R.id.action_delete:
+                deleteAlert();
+
                 return true;
 
             default:
