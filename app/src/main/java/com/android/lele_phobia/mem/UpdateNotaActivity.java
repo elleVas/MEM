@@ -133,7 +133,7 @@ public class UpdateNotaActivity extends AppCompatActivity
 
     }
     public void deleteAlert(){
-        System.out.println("sei qui cazzo");
+
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 this);
 

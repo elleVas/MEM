@@ -4,14 +4,14 @@
 
     <item
         android:id="@+id/action_delete"
-        android:icon="@android:drawable/sym_def_app_icon"
+        android:icon="@raw/cancella"
         android:title="@string/action_delete"
         app:showAsAction="ifRoom"
         />
 
     <item
         android:id="@+id/action_salva"
-        android:icon="@android:drawable/sym_def_app_icon"
+        android:icon="@raw/salva"
         android:title="@string/action_salva"
         app:showAsAction="ifRoom"/>
 

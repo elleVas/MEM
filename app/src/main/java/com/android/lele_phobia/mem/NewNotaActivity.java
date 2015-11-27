@@ -81,15 +81,20 @@ public class NewNotaActivity extends AppCompatActivity
         editNota = (EditText) findViewById(R.id.invDescription);
         editTitolo = (EditText) findViewById(R.id.titoloNota);
 
+        if(editTitolo.getText().toString() == null || editTitolo.getText().toString() == "") {
+            System.out.println("SEI QUI CAZZO");
+            Toast.makeText(NewNotaActivity.this, "Please, add title to save.", Toast.LENGTH_LONG).show();
 
-        boolean isInserted = myDb.insertNota(1, editNota.getText().toString(), currentDateandTime, editTitolo.getText().toString());
-        if (isInserted = true) {
-            Toast.makeText(NewNotaActivity.this, "Saved successfully", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
-        }
-        else {
-            Toast.makeText(NewNotaActivity.this, "Error data not save", Toast.LENGTH_LONG).show();
+        }else{
+            boolean isInserted = myDb.insertNota(1, editNota.getText().toString(), currentDateandTime, editTitolo.getText().toString());
+            if (isInserted = true) {
+                Toast.makeText(NewNotaActivity.this, "Saved successfully", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(NewNotaActivity.this, "Error data not save", Toast.LENGTH_LONG).show();
+            }
+
         }
 
     }

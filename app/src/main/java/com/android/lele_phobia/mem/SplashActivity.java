@@ -11,7 +11,7 @@ import android.util.Log;
 public class SplashActivity extends Activity {
 
     /** Duration of wait **/
-    private final int SPLASH_DISPLAY_LENGTH = 2000;
+    private final int SPLASH_DISPLAY_LENGTH = 3000;
     private MediaPlayer mp1;
 
     /** Called when the activity is first created. */
@@ -24,7 +24,7 @@ public class SplashActivity extends Activity {
         setContentView(R.layout.activity_splash);
 
         // Create a media player for sounds.
-        mp1 = MediaPlayer.create (this, R.raw.laser_01);
+        mp1 = MediaPlayer.create (this, R.raw.intro);
         mp1.start ();
         Log.d("Splash", "onCreate - created MediaPlayer");
 
